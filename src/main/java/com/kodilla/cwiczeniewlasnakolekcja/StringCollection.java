@@ -6,16 +6,17 @@ public class StringCollection {
     public StringCollection() {
         this.collectionHead = null;
     }
-    /*
-    String getElement(int n) {
+    Element getElement(int n) {
+        pointer = collectionHead;
+        for (int i = 0; i < n; i++) {
 
+        }
     }
     public void goToLast() {
         while(pointer.getNext() != null) {
             pointer = pointer.getNext();
         }
     }
-     */
     void addElement(String s) {
         if(collectionHead == null) {
             collectionHead = new Element(s);

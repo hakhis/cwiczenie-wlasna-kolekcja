@@ -13,10 +13,10 @@ public class Element {
     public String getValue() {
         return this.value;
     }
-    public Element setNext(Element nextElement) {
+    public void setNext(Element nextElement) {
         this.next = nextElement;
     }
-    public Element setPrev(Element prevElement) {
+    public void setPrev(Element prevElement) {
         this.prev = prevElement;
     }
     public Element getNext() {
