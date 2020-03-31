@@ -2,8 +2,8 @@ package com.kodilla.cwiczeniewlasnakolekcja;
 
 public class Element {
     private String value;
-    public Element next;
-    public Element prev;
+    private Element next;
+    private Element prev;
 
     public Element(String value) {
         this.value = value;
