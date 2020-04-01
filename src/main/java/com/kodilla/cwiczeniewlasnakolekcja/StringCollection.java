@@ -60,7 +60,7 @@ public class StringCollection {
         size++;
     }
 
-    public void showCollecction() {
+    public void showCollection() {
         pointer = collectionHead;
         while (pointer != null) {
             System.out.println(pointer.getValue());
