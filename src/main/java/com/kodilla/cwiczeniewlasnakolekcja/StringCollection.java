@@ -1,5 +1,7 @@
 package com.kodilla.cwiczeniewlasnakolekcja;
 
+import java.util.Optional;
+
 public class StringCollection {
     Element collectionHead;
     Element pointer;
@@ -14,18 +16,16 @@ public class StringCollection {
         return this.size;
     }
 
-    String getElement(int n) {
-        if(n <= size) {
-            pointer = collectionHead;
-            if (n == 0) {
-                return pointer.getValue();
-            } else {
-                for (int i = 0; i < n; i++) {
-                    pointer = pointer.getNext();
-                }
-                return pointer.getValue();
+    String getElement(int index) {
+        if(index <= size) {
+            Element temp = collectionHead;
+            int counter = 0;
+            while (counter < index) {
+                counter++;
+                temp = temp.getNext();
             }
-        } else return "The queue is smaller than " + n + " elements";
+            return temp.getValue();
+        } else return "The queue is smaller than " + index + " elements";
     }
     /*Zrobiłem 2 metody dodające nowy element*/
     //Dodaje nowy element na początku kolejki
@@ -43,19 +43,14 @@ public class StringCollection {
 
     //Dodaje nowy element na końcu kolejki
     public void addElementLast(String s) {
+        Element element = new Element(s);
         if(collectionHead == null) {
-            collectionHead = new Element(s);
-        } else if(collectionHead.getNext() == null) {
-            pointer = new Element(s);
-            pointer.setPrev(collectionHead);
-            collectionHead.setNext(pointer);
+            collectionHead = element;
         } else {
-            pointer = collectionHead;
-            while (pointer.getNext() != null) {
-                pointer = pointer.getNext();
-            }
-            pointer.setNext(new Element(s));
-            pointer.getNext().setPrev(pointer);
+            Element temp = collectionHead;
+            while (temp.getNext() != null) temp = temp.getNext();
+            temp.setNext(element);
+            element.setPrev(temp);
         }
         size++;
     }
@@ -69,25 +64,24 @@ public class StringCollection {
     }
 
     boolean removeElement(String s) {
-        pointer = collectionHead;
-        while (!pointer.getValue().equals(s)) {
-            if (pointer.getNext() != null) {
-                pointer = pointer.getNext();
-            } else {
-                System.out.println("Element not found");
-                return false;
-            }
-        }
-        if(pointer.getNext() == null) {
-            pointer.getPrev().setNext(null);
-        } else if (pointer.getPrev() == null){
-            pointer.getNext().setPrev(null);
-            collectionHead = pointer.getNext();
-        } else {
-            pointer.getNext().setPrev(pointer.getPrev());
-            pointer.getPrev().setNext(pointer.getNext());
-        }
+        Element found = findElement(s);
+        Optional.ofNullable(found).ifPresent(this::removeOneElement);
         size--;
-        return true;
+        return found != null;
+    }
+
+    private void removeOneElement(Element e) {
+        e.getPrev().setNext(e.getNext());
+        e.getNext().setPrev(e.getPrev());
+    }
+
+    private Element findElement(String s) {
+        Element found = null;
+        Element temp = collectionHead;
+        while (temp.getNext() != null) {
+            temp = temp.getNext();
+            if (temp.getValue().equals(s)) found = temp;
+        }
+        return found;
     }
 }
